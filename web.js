@@ -21,7 +21,8 @@ var proxy = httpProxy.createProxyServer({});
 var server = http.createServer(function(req, res) {
   // You can define here your custom logic to handle the request
   // and then proxy the request.
-  proxy.web(req, res, { target: newBaseURL });
+  proxy.web(req, res, { target: 'http://pavlok-redirected.herokuapp.com:80' });
 });
 
-server.listen(port);
+console.log("listening on port 5050")
+server.listen(5000);
