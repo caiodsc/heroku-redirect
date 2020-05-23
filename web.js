@@ -1,10 +1,14 @@
-// include dependencies
-const express = require('express');
+var express = require('express');
+
+var newBaseURL = process.env.NEW_BASE_URL || 'https://pavlok-redirected.herokuapp.com';
+var redirectStatus = parseInt(process.env.REDIRECT_STATUS || 302);
+var port = process.env.PORT || 5000;
+
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // proxy middleware options
 const options = {
-  target: 'https://pavlok-redirected.herokuapp.com', // target host
+  target: newBaseURL, // target host
   changeOrigin: true, // needed for virtual hosted sites
   ws: true, // proxy websockets
   pathRewrite: {
@@ -24,4 +28,4 @@ const exampleProxy = createProxyMiddleware(options);
 // mount `exampleProxy` in web server
 const app = express();
 app.use('/', exampleProxy);
-app.listen(3000);
+app.listen(port);
