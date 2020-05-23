@@ -9,6 +9,10 @@ app.get('*', function(request, response) {
   response.redirect(redirectStatus, newBaseURL + request.url);
 });
 
+app.post('*', function(request, response) {
+  response.redirect(307, newBaseURL + request.url);
+});
+
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
