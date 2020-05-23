@@ -1,27 +1,27 @@
-var express = require('express');
-var app = express();
+// include dependencies
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-var newBaseURL = process.env.NEW_BASE_URL || 'http://example.com';
-var redirectStatus = parseInt(process.env.REDIRECT_STATUS || 302);
-var port = process.env.PORT || 5000;
+// proxy middleware options
+const options = {
+  target: 'https://pavlok-redirected.herokuapp.com', // target host
+  changeOrigin: true, // needed for virtual hosted sites
+  ws: true, // proxy websockets
+  pathRewrite: {
+    // '^/api/old-path': '/api/new-path', // rewrite path
+    // '^/api/remove/path': '/path', // remove base path
+  },
+  router: {
+    // when request.headers.host == 'dev.localhost:3000',
+    // override target 'http://www.example.org' to 'http://localhost:8000'
+    // 'dev.localhost:3000': 'http://localhost:8000',
+  },
+};
 
-var http = require('http'),
-    httpProxy = require('http-proxy');
+// create the proxy (without context)
+const exampleProxy = createProxyMiddleware(options);
 
-//
-// Create a proxy server with custom application logic
-//
-var proxy = httpProxy.createProxyServer({});
-
-//
-// Create your custom server and just call `proxy.web()` to proxy
-// a web request to the target passed in the options
-// also you can use `proxy.ws()` to proxy a websockets request
-//
-var server = http.createServer(function(req, res) {
-  // You can define here your custom logic to handle the request
-  // and then proxy the request.
-  proxy.web(req, res, { target: 'https://pavlok-redirected.herokuapp.com' });
-});
-
-server.listen(port);
+// mount `exampleProxy` in web server
+const app = express();
+app.use('/', exampleProxy);
+app.listen(3000);

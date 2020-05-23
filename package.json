@@ -5,7 +5,8 @@
   "main": "web.js",
   "dependencies": {
     "express": "^4.15.3",
-    "http-proxy": "^1.18.1"
+    "http-proxy": "^1.18.1",
+    "http-proxy-middleware": "^1.0.4"
   },
   "devDependencies": {},
   "scripts": {
