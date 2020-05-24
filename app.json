@@ -1,6 +1,6 @@
 {
   "name": "Heroku Redirect",
-  "repository": "https://github.com/caiodsc/heroku-redirect",
+  "repository": "https://github.com/caiodsc/pavlok",
   "env": {
     "NEW_BASE_URL": {
       "description": "Redirect all requests to this URL.",
